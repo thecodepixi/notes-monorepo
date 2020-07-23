@@ -57,3 +57,26 @@ padding(1, 1);
 padding(1, 1, 1, 1);
 padding(1, 1, 1); /*Error! wrong number of args*/
 ```
+
+## Number of Arguments
+
+_we need to pass in at least enough arguments to a function call, but extra arguments will not cause errors_
+
+```ts
+function consoleName(person: Person) {
+  console.log(person.name);
+}
+consoleName({ name: 'John' }); // 'John'
+consoleName({ name: 'John', age: 30 }); // 'John', extra argument is ignored
+```
+
+## Return Type
+
+_return type must contain at least enough data_
+
+```ts
+let x = () => ({ name: 'John' });
+let y = () => ({ name: 'John', age: 30 });
+x = y; // OK
+y = x; // Error! property age is missing from x
+```
