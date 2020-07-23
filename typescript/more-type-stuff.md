@@ -58,3 +58,65 @@ console.log(x.age); // 20
 ```
 
 _since `y` has a member `name: string`, it matched the required properties for the Person interface, making `x` a sub-type of `y'_
+
+## Type Guard
+
+_type guards allow you to narrow down the type of an object within a conditional block_
+
+### typeof
+
+using `typeof` in a conditional block, the compiler will know the type of variable to be different.
+
+in the following, TS understands that outside the conditional block, `x` might be a boolean, which cannot have `toFixed` called on it
+
+```ts
+function example(x: number | boolean) {
+  if (typeof x === 'number') {
+    return x.toFixed(2);
+  }
+  return x.toFixed(2); // ERROR
+}
+```
+
+### instanceof
+
+```ts
+class MyResponse {
+  header = 'header example';
+  result = 'result example';
+  // ...
+}
+class MyError {
+  header = 'header example';
+  message = 'message example';
+  // ...
+}
+function example(x: MyResponse | MyError) {
+  if (x instanceof MyResponse) {
+    console.log(x.message); // ERROR, no property error on type MyResponse
+    console.log(x.result); // OK
+  } else {
+    // must be MyError
+    console.log(x.message); // OK
+    console.log(x.result); // ERROR, no property result on type MyError
+  }
+}
+```
+
+### in
+
+_the `in` operator checks for the existence of a property on an object_
+
+```ts
+interface Person {
+  name: string;
+  age: number;
+}
+
+const person: Person = {
+  name: 'John',
+  age: 30,
+};
+
+const checkForName = 'name' in person; // true
+```
